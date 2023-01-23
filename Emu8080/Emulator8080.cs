@@ -56,8 +56,8 @@ namespace Emu8080
                     break;
                 case 0x01:// LXI	B,word
                     {
-                        cpu.c = GetParam(1);
                         cpu.b = GetParam(2);
+                        cpu.c = GetParam(1);
                         cpu.pc += opCode.size;
                     }
                     break;
@@ -99,6 +99,7 @@ namespace Emu8080
                     break;
                 case 0x0f:// RRC
                     {
+                        //TODO: ??? check ???
                         byte x = cpu.a;
                         cpu.a = (byte)((byte)((byte)((byte)x & 1) << 7) | (byte)((byte)x >> 1));
                         status.cy = 1 == (x & 1);
@@ -107,8 +108,8 @@ namespace Emu8080
                     break;
                 case 0x11:// LXI	D,word
                     {
-                        cpu.e = GetParam(1);
                         cpu.d = GetParam(2);
+                        cpu.e = GetParam(1);
                         cpu.pc += opCode.size;
                     }
                     break;
@@ -142,8 +143,8 @@ namespace Emu8080
                     break;
                 case 0x21:// LXI	H,word
                     {
-                        cpu.l = GetParam(1);
                         cpu.h = GetParam(2);
+                        cpu.l = GetParam(1);
                         cpu.pc += opCode.size;
                     }
                     break;
@@ -201,6 +202,12 @@ namespace Emu8080
                         cpu.pc += opCode.size;
                     }
                     break;
+                case 0x3d:// DCR    a                                            
+                    {
+                        cpu.a = Decrement(cpu.a);
+                        cpu.pc += opCode.size;
+                    }
+                    break;
                 case 0x3e:// MVI    A,byte
                     {
                         cpu.a = GetParam(1);
@@ -230,7 +237,7 @@ namespace Emu8080
                     break;
                 case 0x6f:// MOV L,A
                     {
-                        cpu.a = cpu.l;
+                        cpu.l = cpu.a;
                         cpu.pc += opCode.size;
                     }
                     break;
