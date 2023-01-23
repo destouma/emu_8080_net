@@ -298,7 +298,7 @@ namespace Emu8080
                     break;
                 case 0xc2:// JNZ address
                     {
-                        if (status.z)
+                        if (!status.z)
                         {
                             cpu.pc = GetAddress();
                         }
@@ -462,12 +462,11 @@ namespace Emu8080
 
         private byte Decrement(byte value)
         {
-            short answer = (short)(value - 1);
-            status.CalcFlagParity((byte)answer);
-            status.CalcFlagZero((byte)answer);
-            status.CalcFlagSign((byte)answer);
-            status.CalcFlagCarry(answer);
-            return (byte)answer;
+            byte answer = (byte)(value - 1);
+            status.CalcFlagParity(answer);
+            status.CalcFlagZero(answer);
+            status.CalcFlagSign(answer);
+            return answer;
         }
 
         private byte Increment(byte value)
