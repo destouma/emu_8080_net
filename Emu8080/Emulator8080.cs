@@ -40,7 +40,20 @@ namespace Emu8080
             return listener;
         }
 
-        public Boolean Emulate()
+        public void Run()
+        {
+            Boolean continueRun = true;
+            while (continueRun)
+            {
+                continueRun = Emulate();
+                if (cpu.intEnabled)
+                {
+                    GenerateInterrupt(2);
+                }
+            }
+        }
+
+        private Boolean Emulate()
 		{
 			OpCode8080 opCode = opCodes.GetOpCode(memory.ReadByteFromMemoryAt(cpu.pc));
             listener.DisplayInstruction(
@@ -444,6 +457,19 @@ namespace Emu8080
             return true;
 		}
 
+        private void GenerateInterrupt(int intNumber)
+        {
+            //listener.InterruptGenerated();
+            // perform "PUSH PC"
+            //memory.WriteByteInRamAt(cpu.sp - 1, (byte)((byte)(cpu.pc >> 8) & 0xff));
+            //memory.WriteByteInRamAt(cpu.sp - 2, (byte)(cpu.pc & 0xff));
+            //cpu.sp = cpu.sp - 2;
+
+            // Set the PC to the low memory vector.
+            // This is identical to an "RST interrupt_num" instruction.
+            //cpu.pc = 8 * intNumber;
+        }
+
         private int GetAddress()
         {
             return (memory.ReadByteFromMemoryAt(cpu.pc + 2) << 8) | memory.ReadByteFromMemoryAt(cpu.pc + 1);
@@ -453,7 +479,6 @@ namespace Emu8080
         {
             return (msb << 8) | (lsb);
         }
-
 
         private byte GetParam(int num)
         {

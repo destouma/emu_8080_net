@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection.Emit;
+using System.Reflection.Metadata;
 
 namespace Emu8080
 {
@@ -89,6 +90,10 @@ namespace Emu8080
                 );
         }
 
+        public void InterruptGenerated()
+        {
+            Console.WriteLine(" ===> interrupt generated");
+        }
     }
 }
 
