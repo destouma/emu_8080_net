@@ -35,11 +35,6 @@ namespace Emu8080
             memory.InitRomFromBuffer(address, file);
 		}
 
-        public IEmulator8080Listener? GetListener()
-        {
-            return listener;
-        }
-
         public void Run()
         {
             Boolean continueRun = true;
