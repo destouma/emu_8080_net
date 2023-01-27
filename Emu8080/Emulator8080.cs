@@ -38,17 +38,26 @@ namespace Emu8080
         public void Run()
         {
             DateTimeOffset lastInterrupt = DateTimeOffset.UtcNow;
+            int interruptNumber = 1;
             while (true)
             {
                 DateTimeOffset now = DateTimeOffset.UtcNow;
                 long nowMillisecond = now.ToUnixTimeMilliseconds();
                 long lastInteeruptMillisecond = lastInterrupt.ToUnixTimeMilliseconds();
                 long diff = nowMillisecond - lastInteeruptMillisecond;
-                if(diff > 16)
+                if (diff > 16)
                 {
                     if (cpu.intEnabled)
                     {
-                        GenerateInterrupt(2);
+                        if (interruptNumber == 1) { 
+                            GenerateInterrupt(1);
+                            interruptNumber = 2;
+                        }
+                        else
+                        {
+                            GenerateInterrupt(2);
+                            interruptNumber = 1;
+                        }
                         lastInterrupt = DateTimeOffset.UtcNow;
                     }
                 }
@@ -394,6 +403,16 @@ namespace Emu8080
                         cpu.sp += 2;
                     }
                     break;
+                case 0xca: // JZ addr
+                    if (status.z)
+                    {
+                        cpu.pc = GetAddress(GetParam(2),GetParam(1));
+                    }
+                    else
+                    {
+                        cpu.pc += opCode.size;
+                    }
+                    break;
                 case 0xcd:// CALL address
                     {
                         int ret = cpu.pc + opCode.size;
@@ -417,6 +436,18 @@ namespace Emu8080
                         memory.WriteByteInRamAt(cpu.sp - 2,cpu.e);
                         cpu.sp = cpu.sp - 2;
                         cpu.pc += opCode.size;
+                    }
+                    break;
+                case 0xda:// JC
+                    {
+                        if (status.cy)
+                        {
+                            cpu.pc = GetAddress(GetParam(2), GetParam(1));
+                        }
+                        else
+                        {
+                            cpu.pc += opCode.size;
+                        }
                     }
                     break;
                 case 0xe1:// POP    H
