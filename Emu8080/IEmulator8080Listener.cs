@@ -8,6 +8,7 @@ namespace Emu8080
         void DisplayRegister(Cpu8080 cpu);
         void DisplayStatus(Status8080 status);
         void InterruptGenerated();
+        void FrameBufferRefresh(byte[] frameBuffer);
     }
 }
 

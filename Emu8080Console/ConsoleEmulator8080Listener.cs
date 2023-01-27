@@ -95,6 +95,11 @@ namespace Emu8080
         {
             Console.WriteLine(" ===> interrupt generated");
         }
+
+        public void FrameBufferRefresh(byte[] frameBuffer)
+        {
+            Console.WriteLine(" ===> refresh display:" + frameBuffer.Length);
+        }
     }
 }
 

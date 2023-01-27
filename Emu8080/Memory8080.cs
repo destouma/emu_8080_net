@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+
 namespace Emu8080
 {
 	public class Memory8080
@@ -6,8 +8,11 @@ namespace Emu8080
         private byte[] memory;
 		private int romLimit = 0x2000;
 		private int ramSize = 16 * 1024;
+		private int videoRamStart = 0x2400;
+        private int videoRamEnd = 0x3fff;
 
-		public Memory8080()
+
+        public Memory8080()
 		{
 			memory = new byte[ramSize];
 		}
@@ -43,7 +48,17 @@ namespace Emu8080
             return true;
         }
 
+		public byte[] GetVideoRam()
+		{
+			byte[] ret = new byte[7 * 1024];
+			int retInd = 0;
+			for(int i = videoRamStart; i <= videoRamEnd; i++)
+			{
+                ret[retInd++] = memory[i];
+            }
 
+            return ret;
+		}
     }
 }
 

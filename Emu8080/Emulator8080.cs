@@ -13,6 +13,7 @@ namespace Emu8080
 		private OpCode8080All opCodes;
         private Status8080 status;
         private Memory8080 memory;
+        private InputOutput8080 io;
         IEmulator8080Listener listener;
 
         public Emulator8080(IEmulator8080Listener listener)
@@ -25,6 +26,8 @@ namespace Emu8080
             this.memory = new Memory8080();
 
             this.status = new Status8080();
+
+            this.io = new InputOutput8080();
 
             this.listener = listener;
         }
@@ -69,12 +72,14 @@ namespace Emu8080
                 {
                     case 0xdb: // IN
                         {
+                            cpu.a = io.In(GetParam(1));
                             cpu.pc += opCode.size;
                             cycles += 3;
                         }
                         break;
                     case 0xd3: // OUT
                         {
+                            io.Out(GetParam(1), cpu.a);
                             cpu.pc += opCode.size;
                             cycles += 3;
                         }
@@ -129,7 +134,13 @@ namespace Emu8080
                         cpu.l = (byte)(res & 0xff);
                         status.cy = (res & 0xffff0000) != 0;
                         cpu.pc += opCode.size;
-
+                    }
+                    break;
+                case 0x0a: // LDAX B
+                    {
+                        int offset = cpu.b << 8 | cpu.c;
+                        cpu.a = memory.ReadByteFromMemoryAt(offset);
+                        cpu.pc += opCode.size;
                     }
                     break;
                 case 0x0d:// DCR    C
@@ -248,6 +259,12 @@ namespace Emu8080
                     {
                         int offset = GetAddress(cpu.h , cpu.l);
                         memory.WriteByteInRamAt(offset, GetParam(1));
+                        cpu.pc += opCode.size;
+                    }
+                    break;
+                case 0x37: // STC
+                    {
+                        status.cy = true;
                         cpu.pc += opCode.size;
                     }
                     break;
@@ -430,6 +447,19 @@ namespace Emu8080
                         cpu.pc += opCode.size;
                     }
                     break;
+                case 0xd2: // JNC addr
+                    {
+                        if (!status.cy)
+                        {
+                            cpu.pc = GetAddress(GetParam(2), GetParam(1));
+                        }
+                        else
+                        {
+                            cpu.pc += opCode.size; ;
+                        }
+                    }
+                    break;
+                    
                 case 0xd5:// PUSH D
                     {
                         memory.WriteByteInRamAt(cpu.sp - 1,cpu.d);
@@ -531,6 +561,8 @@ namespace Emu8080
         private void GenerateInterrupt(int intNumber)
         {
             listener.InterruptGenerated();
+            listener.FrameBufferRefresh(memory.GetVideoRam());
+
             // perform "PUSH PC"
             memory.WriteByteInRamAt(cpu.sp - 1, (byte)((byte)(cpu.pc >> 8) & 0xff));
             memory.WriteByteInRamAt(cpu.sp - 2, (byte)(cpu.pc & 0xff));
@@ -561,18 +593,5 @@ namespace Emu8080
             return answer;
         }
 
-        private byte Increment(byte value)
-        {
-            short answer = (short)(value + 1);
-            status.CalcFlagParity((byte)answer);
-            status.CalcFlagZero((byte)answer);
-            status.CalcFlagSign((byte)answer);
-            status.CalcFlagCarry(answer);
-            return (byte)answer;
-        }
-
-        private void Out(byte cmd)
-        {
-        }
     }
 }
