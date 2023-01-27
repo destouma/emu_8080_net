@@ -8,4 +8,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Emu8080\Emu8080.csproj" />
+  </ItemGroup>
+
 </Project>
