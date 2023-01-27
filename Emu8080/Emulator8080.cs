@@ -66,30 +66,34 @@ namespace Emu8080
                     }
                 }
 
+               
+                long cycles_to_catch_up = 2 * diff * 1000;
                 int cycles = 0;
 
-                OpCode8080 opCode = opCodes.GetOpCode(memory.ReadByteFromMemoryAt(cpu.pc));
-                switch (opCode.code)
+                while (cycles_to_catch_up > cycles)
                 {
-                    case 0xdb: // IN
-                        {
-                            cpu.a = io.In(GetParam(1));
-                            cpu.pc += opCode.size;
-                            cycles += 3;
-                        }
-                        break;
-                    case 0xd3: // OUT
-                        {
-                            io.Out(GetParam(1), cpu.a);
-                            cpu.pc += opCode.size;
-                            cycles += 3;
-                        }
-                        break;
-                    default:
-                        cycles += Emulate();
-                        break;
+                    OpCode8080 opCode = opCodes.GetOpCode(memory.ReadByteFromMemoryAt(cpu.pc));
+                    switch (opCode.code)
+                    {
+                        case 0xdb: // IN
+                            {
+                                cpu.a = io.In(GetParam(1));
+                                cpu.pc += opCode.size;
+                                cycles += 3;
+                            }
+                            break;
+                        case 0xd3: // OUT
+                            {
+                                io.Out(GetParam(1), cpu.a);
+                                cpu.pc += opCode.size;
+                                cycles += 3;
+                            }
+                            break;
+                        default:
+                            cycles += Emulate();
+                            break;
+                    }
                 }
-               
             }
         }
 
