@@ -37,23 +37,44 @@ namespace Emu8080
 
         public void Run()
         {
-            Boolean continueRun = true;
-            int cycles = 0;
-            while (continueRun)
+            DateTimeOffset lastInterrupt = DateTimeOffset.UtcNow;
+            while (true)
             {
-                cycles = Emulate();
-                if (cycles != 0)
+                DateTimeOffset now = DateTimeOffset.UtcNow;
+                long nowMillisecond = now.ToUnixTimeMilliseconds();
+                long lastInteeruptMillisecond = lastInterrupt.ToUnixTimeMilliseconds();
+                long diff = nowMillisecond - lastInteeruptMillisecond;
+                if(diff > 16)
                 {
-                    continueRun = true;
                     if (cpu.intEnabled)
                     {
-                        //GenerateInterrupt(2);
+                        GenerateInterrupt(2);
+                        lastInterrupt = DateTimeOffset.UtcNow;
                     }
                 }
-                else
+
+                int cycles = 0;
+
+                OpCode8080 opCode = opCodes.GetOpCode(memory.ReadByteFromMemoryAt(cpu.pc));
+                switch (opCode.code)
                 {
-                    continueRun = false;
+                    case 0xdb: // IN
+                        {
+                            cpu.pc += opCode.size;
+                            cycles += 3;
+                        }
+                        break;
+                    case 0xd3: // OUT
+                        {
+                            cpu.pc += opCode.size;
+                            cycles += 3;
+                        }
+                        break;
+                    default:
+                        cycles += Emulate();
+                        break;
                 }
+               
             }
         }
 
@@ -206,6 +227,14 @@ namespace Emu8080
                         cpu.pc += opCode.size;
                     }
                     break;
+                case 0x35: // DCR M
+                    {
+                        int offset = GetAddress(cpu.h, cpu.l);
+                        byte value = memory.ReadByteFromMemoryAt(offset);
+                        memory.WriteByteInRamAt(offset, Decrement(value));
+                        cpu.pc += opCode.size;
+                    }
+                    break;
                 case 0x36:// MVI	M,byte
                     {
                         int offset = GetAddress(cpu.h , cpu.l);
@@ -350,6 +379,15 @@ namespace Emu8080
                         cpu.pc += opCode.size;
                     }
                     break;
+                case 0xc8:// RZ
+                    {
+                        if (status.z)
+                        {
+                            cpu.pc = GetAddress(memory.ReadByteFromMemoryAt(cpu.sp + 1), memory.ReadByteFromMemoryAt(cpu.sp));
+                            cpu.sp += 2;
+                        }
+                    }
+                    break;
                 case 0xc9:// RET
                     {
                         cpu.pc = GetAddress(memory.ReadByteFromMemoryAt(cpu.sp + 1), memory.ReadByteFromMemoryAt(cpu.sp));
@@ -370,12 +408,6 @@ namespace Emu8080
                         cpu.e = memory.ReadByteFromMemoryAt(cpu.sp);
                         cpu.d = memory.ReadByteFromMemoryAt(cpu.sp + 1);
                         cpu.sp += 2;
-                        cpu.pc += opCode.size;
-                    }
-                    break;
-                case 0xd3:// OUT
-                    {
-                        Out(GetParam(1));
                         cpu.pc += opCode.size;
                     }
                     break;
@@ -453,8 +485,11 @@ namespace Emu8080
                     }
                     break;
                 default:
-                    listener.UnimplmentedOperationCode(opCode);
-                    return 0;
+                    {
+                        listener.UnimplmentedOperationCode(opCode);
+                        return 0;
+                    }
+                    
 			}
             listener.DisplayRegister(cpu);
             listener.DisplayStatus(status);
@@ -464,15 +499,16 @@ namespace Emu8080
 
         private void GenerateInterrupt(int intNumber)
         {
-            //listener.InterruptGenerated();
+            listener.InterruptGenerated();
             // perform "PUSH PC"
-            //memory.WriteByteInRamAt(cpu.sp - 1, (byte)((byte)(cpu.pc >> 8) & 0xff));
-            //memory.WriteByteInRamAt(cpu.sp - 2, (byte)(cpu.pc & 0xff));
-            //cpu.sp = cpu.sp - 2;
+            memory.WriteByteInRamAt(cpu.sp - 1, (byte)((byte)(cpu.pc >> 8) & 0xff));
+            memory.WriteByteInRamAt(cpu.sp - 2, (byte)(cpu.pc & 0xff));
+            cpu.sp = cpu.sp - 2;
 
             // Set the PC to the low memory vector.
             // This is identical to an "RST interrupt_num" instruction.
-            //cpu.pc = 8 * intNumber;
+            cpu.pc = 8 * intNumber;
+            cpu.intEnabled = false;
         }
 
         private int GetAddress(byte msb, byte lsb)

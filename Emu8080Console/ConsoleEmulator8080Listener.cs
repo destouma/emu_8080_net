@@ -13,6 +13,7 @@ namespace Emu8080
         public void UnimplmentedOperationCode(OpCode8080 opCode)
         {
             Console.WriteLine(" ===> operation code not implemented :" + opCode.code.ToString("x2"));
+            throw new InvalidOperationException("Operation code not implemented:" + opCode.code.ToString("x2"));
         }
 
         public void DisplayInstruction(int pc, OpCode8080 opCode, byte param1, byte param2)
