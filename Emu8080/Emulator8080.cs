@@ -38,6 +38,7 @@ namespace Emu8080
             memory.InitRomFromBuffer(address, file);
 		}
 
+        // TODO: finish the cycles catch up
         public void Run()
         {
             DateTimeOffset lastInterrupt = DateTimeOffset.UtcNow;
