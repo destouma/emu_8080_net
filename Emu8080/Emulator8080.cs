@@ -38,7 +38,6 @@ namespace Emu8080
             memory.InitRomFromBuffer(address, file);
 		}
 
-        // TODO: finish the cycles catch up
         public void Run()
         {
             DateTimeOffset lastInterrupt = DateTimeOffset.UtcNow;
@@ -162,7 +161,6 @@ namespace Emu8080
                     break;
                 case 0x0f:// RRC
                     {
-                        //TODO: ??? check ???
                         byte x = cpu.a;
                         cpu.a = (byte)((byte)((byte)((byte)x & 1) << 7) | (byte)((byte)x >> 1));
                         status.cy = 1 == (x & 1);
