@@ -22,14 +22,5 @@ Usefull resources
   * https://en.wikipedia.org/wiki/Intel_8080
 * 8080 Assembler
   * https://altairclone.com/downloads/manuals/8080%20Programmers%20Manual.pdf
-* Space invaders ROM:
-  * [invaders.e](./invaders/invaders.e)
-  * [invaders.f](./invaders/invaders.f)
-  * [invaders.g](./invaders/invaders.g)
-  * [invaders.h](./invaders/invaders.h)
-* 8080 CPU diag adm and bin
-  * [cupdiag.asm](./cpudiag/cpudiag.asm)
-  * [cpudiag.bin](./cpudiag/cpudiag.bin)
-
 $~$
 
