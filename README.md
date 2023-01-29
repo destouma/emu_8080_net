@@ -24,4 +24,4 @@ Usefull resources
   * https://altairclone.com/downloads/manuals/8080%20Programmers%20Manual.pdf
 $~$
 
-![Screenshot](Screenshot.png)
+![Screenshot](ScreenShot.png)
