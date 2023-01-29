@@ -65,8 +65,8 @@ namespace Emu8080
                     }
                 }
 
-               
-                long cycles_to_catch_up = 2 * diff * 1000;
+
+                long cycles_to_catch_up = 2 * diff;
                 int cycles = 0;
 
                 while (cycles_to_catch_up > cycles)
@@ -96,6 +96,9 @@ namespace Emu8080
             }
         }
 
+        public void KeyPressed()
+        {
+        }
         private int Emulate()
 		{
 			OpCode8080 opCode = opCodes.GetOpCode(memory.ReadByteFromMemoryAt(cpu.pc));

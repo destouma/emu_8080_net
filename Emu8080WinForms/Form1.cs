@@ -81,7 +81,7 @@ namespace Emu8080WinForms
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-
+            emulator.KeyPressed();
         }
 
         private void Form1_Load(object sender, EventArgs e)
