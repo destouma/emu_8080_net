@@ -81,11 +81,57 @@ namespace Emu8080WinForms
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            emulator.KeyPressed();
+           
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void form1_keydown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.C:
+                    emulator.KeyDown(Keys8080.KEY_COIN);
+                    break;
+                case Keys.S:
+                    emulator.KeyDown(Keys8080.KEY_P1_START);
+                    break;
+                case Keys.A:
+                    emulator.KeyDown(Keys8080.KEY_P1_LEFT);
+                    break;
+                case Keys.D:
+                    emulator.KeyDown(Keys8080.KEY_P1_RIGHT);
+                    break;
+                case Keys.Space:
+                    emulator.KeyDown(Keys8080.KEY_P1_FIRE);
+                    break;
+            }
+        }
+
+        private void form1_keyup(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.C:
+                    emulator.KeyUp(Keys8080.KEY_COIN);
+                    break;
+                case Keys.S:
+                    emulator.KeyUp(Keys8080.KEY_P1_START);
+                    break;
+                case Keys.A:
+                    emulator.KeyUp(Keys8080.KEY_P1_LEFT);
+                    break;
+                case Keys.D:
+                    emulator.KeyUp(Keys8080.KEY_P1_RIGHT);
+                    break;
+                case Keys.Space:
+                    emulator.KeyUp(Keys8080.KEY_P1_FIRE);
+                    break;
+            }
+
 
         }
     }

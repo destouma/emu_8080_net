@@ -96,9 +96,17 @@ namespace Emu8080
             }
         }
 
-        public void KeyPressed()
+        public void KeyUp(byte key)
         {
+            Console.WriteLine("==> KeyUp");
         }
+
+        public void KeyDown(byte key)
+        {
+            Console.WriteLine("==> KeyDown");
+        }
+
+
         private int Emulate()
 		{
 			OpCode8080 opCode = opCodes.GetOpCode(memory.ReadByteFromMemoryAt(cpu.pc));
