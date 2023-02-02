@@ -5,13 +5,13 @@ using System.Windows.Forms;
 
 namespace Emu8080WinForms
 {
-    public partial class Form1 : Form
+    public partial class GameView : Form
     {
         private Emulator8080 emulator;
         private Thread trd;
         private Bitmap bmap;
 
-        public Form1()
+        public GameView()
         {
             InitializeComponent();
             trd = new Thread(new ThreadStart(this.ThreadTask));
@@ -22,17 +22,17 @@ namespace Emu8080WinForms
         
         private void ThreadTask()
         {
-            emulator = new Emulator8080(new Form1.InnerListener(this));
+            emulator = new Emulator8080(new GameView.InnerListener(this));
             emulator.LoadFileInMemoryAt(0, "C:\\Users\\Manuel DESTOUESSE\\Development\\PERSO\\emu_8080_net\\Emu8080\\invaders.bin");
             emulator.Run();
         }
 
         public class InnerListener : IEmulator8080Listener
         {
-            private Form1 form;
-            private Bitmap bmap;
+            private GameView form;
+            
 
-            public InnerListener(Form1 form)
+            public InnerListener(GameView form)
             {
                 this.form = form;
             }
@@ -69,7 +69,7 @@ namespace Emu8080WinForms
                     Array.Reverse(ram);
                     GCHandle handle = GCHandle.Alloc(ram, GCHandleType.Pinned);
                     IntPtr ptr = Marshal.UnsafeAddrOfPinnedArrayElement(ram, 0);
-                    bmap = new Bitmap(256, 224, 32, PixelFormat.Format1bppIndexed, ptr);
+                    Bitmap  bmap = new Bitmap(256, 224, 32, PixelFormat.Format1bppIndexed, ptr);
                     handle.Free();
                     bmap.RotateFlip(RotateFlipType.Rotate90FlipNone);
                     bmap = new Bitmap(bmap,1024, 896);

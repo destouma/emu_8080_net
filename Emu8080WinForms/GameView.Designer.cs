@@ -1,6 +1,6 @@
 ﻿namespace Emu8080WinForms
 {
-    partial class Form1
+    partial class GameView
     {
         /// <summary>
         ///  Required designer variable.

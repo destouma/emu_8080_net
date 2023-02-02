@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 namespace Emu8080
 {
 	public class InputOutput8080
@@ -57,6 +58,22 @@ namespace Emu8080
                 case 5:
                     outPort5 = value;
                     break;
+            }
+        }
+
+		public void Or(byte port, byte value)
+		{
+			if(port == 0x01)
+			{
+				inPort1 |= value;
+			}
+		}
+
+		public void And(byte port, byte value)
+		{
+            if (port == 0x01)
+            {
+				inPort1 &= value;
             }
         }
 

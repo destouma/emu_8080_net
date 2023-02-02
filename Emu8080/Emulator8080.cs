@@ -96,16 +96,51 @@ namespace Emu8080
             }
         }
 
-        public void KeyUp(byte key)
+        public void KeyUp(Keys8080 key)
         {
-            Console.WriteLine("==> KeyUp");
+            Console.WriteLine("==> KeyUp:" + key);
+            switch (key)
+            {
+                case Keys8080.KEY_COIN:
+                    io.And(1, 0x1);
+                    break;
+                case Keys8080.KEY_P1_LEFT:
+                    io.And(1, 0x20);
+                    break;
+                case Keys8080.KEY_P1_RIGHT:
+                    io.And(1,0x40);
+                    break;
+                case Keys8080.KEY_P1_FIRE:
+                    io.And(1, 0x10);
+                    break;
+                case Keys8080.KEY_P1_START:
+                    io.And(1, 0x04);
+                    break;
+            }
         }
 
-        public void KeyDown(byte key)
+        public void KeyDown(Keys8080 key)
         {
-            Console.WriteLine("==> KeyDown");
+            Console.WriteLine("==> KeyDown" + key);
+            switch (key)
+            {
+                case Keys8080.KEY_COIN:
+                    io.Or(1,0x1);
+                    break;
+                case Keys8080.KEY_P1_LEFT:
+                    io.Or(1, 0x20);
+                    break;
+                case Keys8080.KEY_P1_RIGHT:
+                    io.Or(1,0x40);
+                    break;
+                case Keys8080.KEY_P1_FIRE:
+                    io.Or(1,0x10);
+                    break;
+                case Keys8080.KEY_P1_START:
+                    io.Or(1,0x04);
+                    break;
+            }
         }
-
 
         private int Emulate()
 		{
