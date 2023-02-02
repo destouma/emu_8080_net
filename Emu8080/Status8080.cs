@@ -45,6 +45,18 @@ namespace Emu8080
             this.p = (total % 2) == 0;
         }
 
+        public void CalcFlagParity(int value)
+        {
+            ////P(parity) is set when the answer has even parity, clear when odd parity
+            //byte num = (byte)(value & 0xff);
+            //byte total = 0;
+            //for (total = 0; num > 0; total++)
+            //{
+            //    num &= (byte)(num - 1);
+            //}
+            //this.p = (total % 2) == 0;
+        }
+
         public void CalcFlagCarry(short value)
         {
             //CY (carry) set to 1 when the instruction resulted in a carry out or borrow into the high order bit
@@ -65,6 +77,13 @@ namespace Emu8080
             CalcFlagParity(value);
         }
 
+        public void ArithFlagsA(byte value)
+        {
+            CalcFlagCarry(value);
+            CalcFlagZero(value);
+            CalcFlagSign(value);
+            CalcFlagParity(value);
+        }
 
         public byte GetPSW()
         {

@@ -271,6 +271,19 @@ namespace Emu8080
                         cpu.pc += opCode.size;
                     }
                     break;
+                case 0x27:
+                    {
+                        //if ((state->a & 0xf) > 9)
+                        //    state->a += 6;
+                        //if ((state->a & 0xf0) > 0x90)
+                        //{
+                        //    uint16_t res = (uint16_t)state->a + 0x60;
+                        //    state->a = res & 0xff;
+                        //    ArithFlagsA(state, res);
+                        //}
+                    }
+                   
+                    break;
                 case 0x29:// DAD    H
                     {
                         int hl = (cpu.h << 8) | cpu.l;
