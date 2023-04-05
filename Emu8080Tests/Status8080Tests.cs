@@ -1,64 +1,17 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Emu8080;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Emu8080.Tests
 {
     [TestClass()]
     public class Status8080Tests
     {
-        //[TestMethod()]
-        //public void Status8080Test()
-        //{
-        //    Assert.Fail();
-        //}
-
-        //[TestMethod()]
-        //public void CalcFlagZeroTest()
-        //{
-        //    Assert.Fail();
-        //}
-
-        //[TestMethod()]
-        //public void CalcFlagSignTest()
-        //{
-        //    Assert.Fail();
-        //}
-
-        //[TestMethod()]
-        //public void CalcFlagParityTest()
-        //{
-        //    Assert.Fail();
-        //}
-
-        //[TestMethod()]
-        //public void CalcFlagCarryTest()
-        //{
-        //    Assert.Fail();
-        //}
-
-        //[TestMethod()]
-        //public void CalcFlagAuxCarryTest()
-        //{
-        //    Assert.Fail();
-        //}
-
-        //[TestMethod()]
-        //public void CalcLogicFlagsTest()
-        //{
-        //    Assert.Fail();
-        //}
 
         [TestMethod()]
         public void GetPSWTest()
         {
             Status8080 status = new Status8080();
 
-            Assert.AreEqual( (byte)0x00, status.GetPSW());
+            Assert.AreEqual((byte)0x00, status.GetPSW());
         }
 
         [TestMethod()]
@@ -164,6 +117,83 @@ namespace Emu8080.Tests
             Status8080 status = new Status8080();
             status.SetPSW(0x01);
             Assert.IsTrue(status.cy);
+        }
+
+        [TestMethod()]
+        public void SetPSWTestAll()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x95);
+            Assert.IsTrue(status.s);
+            Assert.IsTrue(status.z);
+            Assert.IsTrue(status.ac);
+            Assert.IsTrue(status.p);
+            Assert.IsTrue(status.cy);
+        }
+        [TestMethod()]
+        public void SetPSWTestAll2()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x2A);
+            Assert.IsFalse(status.s);
+            Assert.IsFalse(status.z);
+            Assert.IsFalse(status.ac);
+            Assert.IsFalse(status.p);
+            Assert.IsFalse(status.cy);
+        }
+
+        [TestMethod()]
+        public void SetPSWTestAll3()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            Assert.IsFalse(status.s);
+            Assert.IsFalse(status.z);
+            Assert.IsFalse(status.ac);
+            Assert.IsTrue(status.p);
+            Assert.IsFalse(status.cy);
+        }
+        [TestMethod()]
+        public void SetPSWTestAll4()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x7F);
+            Assert.IsFalse(status.s);
+            Assert.IsFalse(status.z);
+            Assert.IsFalse(status.ac);
+            Assert.IsTrue(status.p);
+            Assert.IsFalse(status.cy);
+        }
+
+        [TestMethod()]  
+        public void SetPSWTestAll5()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0xFF);
+            Assert.IsTrue(status.s);
+            Assert.IsFalse(status.z);
+            Assert.IsFalse(status.ac);
+            Assert.IsTrue(status.p);
+            Assert.IsFalse(status.cy);
+        }
+        [TestMethod()]
+        public void SetPSWTestAll6()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x80);
+            Assert.IsTrue(status.s);
+            Assert.IsFalse(status.z);
+            Assert.IsFalse(status.ac);
+            Assert.IsTrue(status.p);
+            Assert.IsFalse(status.cy);
+        }
+
+        [TestMethod()]
+        public void SetPSWTestAll7()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0xFF);
+            Assert.AreEqual((byte) 0xff, status.GetPSW());
         }
     }
 }
