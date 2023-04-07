@@ -9,4 +9,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Emu8080Library\Emu8080Library.csproj" />
+  </ItemGroup>
+
 </Project>
