@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 
 namespace Emu8080
 {
-	public class Emulator8080
+	public class Emulator8080  : IEmulator8080
 	{
 		private Cpu8080 cpu;
 		private OpCode8080All opCodes;

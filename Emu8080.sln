@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emu8080", "Emu8080\Emu8080.csproj", "{53779C94-A7E9-49CA-849F-60BBA9B8CA4F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emu8080Tests", "Emu8080Tests\Emu8080Tests.csproj", "{A505B0D5-646F-46DA-B190-DBC153BA6FA6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emu8080Console", "Emu8080Console\Emu8080Console.csproj", "{502B6C9F-7349-43FE-B825-1867AB5875B6}"
@@ -17,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emu8080XamarinForms.iOS", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emu8080XamarinForms", "Emu8080XamarinForms\Emu8080XamarinForms\Emu8080XamarinForms.csproj", "{B4031E90-FEAA-4F07-9F35-05114F39ECFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emu8080Library", "Emu8080Library\Emu8080Library.csproj", "{2F5D8487-39AA-44B6-8657-15B811F31A4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Emu8080Library", "Emu8080Library\Emu8080Library.csproj", "{2F5D8487-39AA-44B6-8657-15B811F31A4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,18 +27,6 @@ Global
 		Release|iPhoneSimulator = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{53779C94-A7E9-49CA-849F-60BBA9B8CA4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{53779C94-A7E9-49CA-849F-60BBA9B8CA4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{53779C94-A7E9-49CA-849F-60BBA9B8CA4F}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{53779C94-A7E9-49CA-849F-60BBA9B8CA4F}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{53779C94-A7E9-49CA-849F-60BBA9B8CA4F}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{53779C94-A7E9-49CA-849F-60BBA9B8CA4F}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{53779C94-A7E9-49CA-849F-60BBA9B8CA4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{53779C94-A7E9-49CA-849F-60BBA9B8CA4F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{53779C94-A7E9-49CA-849F-60BBA9B8CA4F}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{53779C94-A7E9-49CA-849F-60BBA9B8CA4F}.Release|iPhone.Build.0 = Release|Any CPU
-		{53779C94-A7E9-49CA-849F-60BBA9B8CA4F}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{53779C94-A7E9-49CA-849F-60BBA9B8CA4F}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{A505B0D5-646F-46DA-B190-DBC153BA6FA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A505B0D5-646F-46DA-B190-DBC153BA6FA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A505B0D5-646F-46DA-B190-DBC153BA6FA6}.Debug|iPhone.ActiveCfg = Debug|Any CPU

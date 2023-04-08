@@ -23,7 +23,8 @@ namespace Emu8080WinForms
         private void ThreadTask()
         {
             emulator = new Emulator8080(new GameView.InnerListener(this));
-            emulator.LoadFileInMemoryAt(0, "C:\\Users\\Manuel DESTOUESSE\\Development\\PERSO\\emu_8080_net\\Emu8080\\invaders.bin");
+           // emulator.LoadFileInMemoryAt(0, "C:\\Users\\Manuel DESTOUESSE\\Development\\PERSO\\emu_8080_net\\Emu8080\\invaders.bin");
+            emulator.LoadFileInMemoryAt(0, "C:\\Users\\Manuel DESTOUESSE\\Development\\PERSO\\emu_8080_net\\Emu8080Library\\invaders.bin");
             emulator.Run();
         }
 
