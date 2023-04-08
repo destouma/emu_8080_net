@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Emu8080\Emu8080.csproj" />
+    <ProjectReference Include="..\Emu8080Library\Emu8080Library.csproj" />
   </ItemGroup>
 
 </Project>

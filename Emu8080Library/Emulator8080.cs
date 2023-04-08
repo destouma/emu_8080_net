@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.NetworkInformation;
 using System.Reflection.Emit;
-using System.Reflection.Metadata;
 using System.Runtime.ConstrainedExecution;
 using System.Security.Cryptography;
 
@@ -37,6 +36,12 @@ namespace Emu8080
 			byte[] file = System.IO.File.ReadAllBytes(filePath);
             memory.InitRomFromBuffer(address, file);
 		}
+
+        public void LoadBufferInMemoryAt(int address, byte[] buffer)
+        {
+            memory.InitRomFromBuffer(address, buffer);
+        }
+
 
         public void Run()
         {
