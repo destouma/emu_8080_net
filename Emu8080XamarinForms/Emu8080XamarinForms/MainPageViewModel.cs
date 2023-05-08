@@ -12,25 +12,22 @@ namespace Emu8080XamarinForms
         private Emulator8080 emulator;
         private Thread trd;
 
-
-        //public Image ImageToShow { get; set; }
-
-        //public Image _ImageToShow;
-        //public Image ImageToShow
-        //{
-        //    get
-        //    {
-        //        return _ImageToShow;
-        //    }
-        //    set
-        //    {
-        //        if (_ImageToShow != value)
-        //        {
-        //            _ImageToShow = value;
-        //            OnPropertyChanged("ImageToShow");
-        //        }
-        //    }
-        //}
+        public byte[] _FrameBuffer;
+        public byte[] FrameBuffer
+        {
+            get
+            {
+                return _FrameBuffer;
+            }
+            set
+            {
+                if (_FrameBuffer != value)
+                {
+                    _FrameBuffer = value;
+                    OnPropertyChanged("FrameBuffer");
+                }
+            }
+        }
 
 
         public MainPageViewModel()
@@ -87,7 +84,7 @@ namespace Emu8080XamarinForms
 
             public void FrameBufferRefresh(byte[] frameBuffer)
             {
-                //ViewModel.ImageToShow.Source = ImageSource.FromStream(() => new MemoryStream(frameBuffer));
+                ViewModel.FrameBuffer = frameBuffer;
             }
         }
 

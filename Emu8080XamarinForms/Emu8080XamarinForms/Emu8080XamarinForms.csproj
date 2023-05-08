@@ -18,4 +18,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Emu8080Library\Emu8080Library.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Drawing.Common">
+      <HintPath>..\..\..\..\..\..\..\..\Library\Frameworks\Xamarin.iOS.framework\Versions\16.2.0.5\lib\mono\Xamarin.iOS\Facades\System.Drawing.Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
