@@ -487,9 +487,9 @@ namespace Emu8080
                 case 0xc6:// ADI    byte
                     {
                         UInt16 x = (UInt16)(cpu.a + GetParam(1));
-                        status.CalcFlagZero((byte)x);
-                        status.CalcFlagSign((byte)x);
-                        status.CalcFlagParity((byte)x);
+                        status.CalcFlagZero(x);
+                        status.CalcFlagSign(x);
+                        status.CalcFlagParity(x);
                         status.CalcFlagCarry(x);
                         cpu.a = (byte)x;
                         cpu.pc += opCode.size;
