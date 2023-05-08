@@ -106,6 +106,26 @@ namespace Emu8080
             this.p = (0x04 == (psw & 0x04));
             this.cy = (0x01 == (psw & 0x01));
         }
+
+        public byte Decrement(byte value)
+        {
+            byte answer = (byte)(value - 1);
+            CalcFlagParity(answer);
+            CalcFlagZero(answer);
+            CalcFlagSign(answer);
+            return answer;
+        }
+
+        public byte Add(byte a, byte b)
+        {
+            short answer = (short)(a + b);
+            CalcFlagParity((byte)answer);
+            CalcFlagZero((byte)answer);
+            CalcFlagSign((byte)answer);
+            CalcFlagParity(answer & 0xff);
+            byte result = (byte)(answer & 0xff);
+            return result;
+        }
     }
 }
 

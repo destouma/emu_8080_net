@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Emu8080;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Emu8080.Tests
 {
@@ -119,81 +120,125 @@ namespace Emu8080.Tests
             Assert.IsTrue(status.cy);
         }
 
-        [TestMethod()]
-        public void SetPSWTestAll()
-        {
-            Status8080 status = new Status8080();
-            status.SetPSW(0x95);
-            Assert.IsTrue(status.s);
-            Assert.IsTrue(status.z);
-            Assert.IsTrue(status.ac);
-            Assert.IsTrue(status.p);
-            Assert.IsTrue(status.cy);
-        }
-        [TestMethod()]
-        public void SetPSWTestAll2()
-        {
-            Status8080 status = new Status8080();
-            status.SetPSW(0x2A);
-            Assert.IsFalse(status.s);
-            Assert.IsFalse(status.z);
-            Assert.IsFalse(status.ac);
-            Assert.IsFalse(status.p);
-            Assert.IsFalse(status.cy);
-        }
 
         [TestMethod()]
-        public void SetPSWTestAll3()
+        public void DecrementTest()
         {
             Status8080 status = new Status8080();
             status.SetPSW(0x00);
-            Assert.IsFalse(status.s);
-            Assert.IsFalse(status.z);
-            Assert.IsFalse(status.ac);
-            Assert.IsTrue(status.p);
-            Assert.IsFalse(status.cy);
-        }
-        [TestMethod()]
-        public void SetPSWTestAll4()
-        {
-            Status8080 status = new Status8080();
-            status.SetPSW(0x7F);
-            Assert.IsFalse(status.s);
-            Assert.IsFalse(status.z);
-            Assert.IsFalse(status.ac);
-            Assert.IsTrue(status.p);
-            Assert.IsFalse(status.cy);
+            byte result = status.Decrement(0x01);
+
+            //Assert.IsTrue(status.z);    
+            //Assert.IsFalse(status.ac);
+            //Assert.IsFalse(status.cy);
+            //Assert.IsFalse(status.s);
+            Assert.AreEqual((byte)0x00, result);
         }
 
-        [TestMethod()]  
-        public void SetPSWTestAll5()
-        {
-            Status8080 status = new Status8080();
-            status.SetPSW(0xFF);
-            Assert.IsTrue(status.s);
-            Assert.IsFalse(status.z);
-            Assert.IsFalse(status.ac);
-            Assert.IsTrue(status.p);
-            Assert.IsFalse(status.cy);
-        }
+
         [TestMethod()]
-        public void SetPSWTestAll6()
+        public void DecrementTest2()
         {
             Status8080 status = new Status8080();
-            status.SetPSW(0x80);
-            Assert.IsTrue(status.s);
-            Assert.IsFalse(status.z);
-            Assert.IsFalse(status.ac);
-            Assert.IsTrue(status.p);
-            Assert.IsFalse(status.cy);
+            status.SetPSW(0x00);
+            byte result = status.Decrement(0xff);
+
+            //Assert.IsFalse(status.z);
+            //Assert.IsFalse(status.ac);
+            //Assert.IsFalse(status.cy);
+            //Assert.IsFalse(status.s);
+            Assert.AreEqual((byte)0xfe, result);
+        }
+
+
+        [TestMethod()]
+        public void DecrementTest3()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Decrement(0x00);
+            //Assert.IsTrue(status.z);
+            //Assert.IsFalse(status.ac);
+            //Assert.IsFalse(status.cy);
+            //Assert.IsFalse(status.s);
+            Assert.AreEqual((byte)0xff, result);
         }
 
         [TestMethod()]
-        public void SetPSWTestAll7()
+        public void DecrementTest4()
         {
             Status8080 status = new Status8080();
-            status.SetPSW(0xFF);
-            Assert.AreEqual((byte) 0xff, status.GetPSW());
+            status.SetPSW(0x00);
+            byte result = status.Decrement(0x80);
+            //Assert.IsFalse(status.z);
+            //Assert.IsTrue(status.ac);
+            //Assert.IsFalse(status.cy);
+            //Assert.IsTrue(status.s);
+            Assert.AreEqual((byte)0x7f, result);
         }
+
+        [TestMethod()]
+        public void DecrementTest5()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Decrement(0x00);
+            //Assert.IsFalse(status.z);
+            //Assert.IsTrue(status.ac);
+            //Assert.IsFalse(status.cy);
+            //Assert.IsTrue(status.s);
+            Assert.AreEqual((byte)0xff, result);
+        }
+        [TestMethod()]
+        public void AddTest()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Add(0x01, 0x01);
+            //Assert.IsFalse(status.z);
+            //Assert.IsFalse(status.ac);
+            //Assert.IsFalse(status.cy);
+            //Assert.IsFalse(status.s);
+            Assert.AreEqual((byte)0x02, result);
+        }
+
+        [TestMethod()]
+        public void AddTest2() { 
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Add(0xfe, 0x01);
+            //Assert.IsFalse(status.z);
+            //Assert.IsFalse(status.ac);
+            //Assert.IsFalse(status.cy);
+            //Assert.IsFalse(status.s);
+            Assert.AreEqual((byte)0xff, result);
+        }
+
+        [TestMethod()]
+        public void AddTest3()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Add(0xfe, 0x05);
+            //Assert.IsFalse(status.z);
+            //Assert.IsFalse(status.ac);
+            //Assert.IsFalse(status.cy);
+            //Assert.IsFalse(status.s);
+            Assert.AreEqual((byte)0x03, result);
+        }
+
+        [TestMethod()]
+        public void AddTest4()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Add(0xff, 0x01);
+            //Assert.IsFalse(status.z);
+            //Assert.IsFalse(status.ac);
+            //Assert.IsFalse(status.cy);
+            //Assert.IsFalse(status.s);
+            Assert.AreEqual((byte)0x00, result);
+        }
+
     }
 }

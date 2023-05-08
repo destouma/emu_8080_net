@@ -47,12 +47,19 @@ namespace Emu8080
         {
             DateTimeOffset lastInterrupt = DateTimeOffset.UtcNow;
             int interruptNumber = 1;
+            DateTimeOffset now ;
+            long nowMillisecond ;
+            long lastInteeruptMillisecond ;
+            long diff ;
+            long cycles_to_catch_up;
+            int cycles;
+
             while (true)
             {
-                DateTimeOffset now = DateTimeOffset.UtcNow;
-                long nowMillisecond = now.ToUnixTimeMilliseconds();
-                long lastInteeruptMillisecond = lastInterrupt.ToUnixTimeMilliseconds();
-                long diff = nowMillisecond - lastInteeruptMillisecond;
+                now = DateTimeOffset.UtcNow;
+                nowMillisecond = now.ToUnixTimeMilliseconds();
+                lastInteeruptMillisecond = lastInterrupt.ToUnixTimeMilliseconds();
+                diff = nowMillisecond - lastInteeruptMillisecond;
                 if (diff > 16)
                 {
                     if (cpu.intEnabled)
@@ -71,8 +78,8 @@ namespace Emu8080
                 }
 
 
-                long cycles_to_catch_up = 2 * diff;
-                int cycles = 0;
+                cycles_to_catch_up = 2 * diff;
+                cycles = 0;
 
                 while (cycles_to_catch_up > cycles)
                 {
@@ -170,7 +177,7 @@ namespace Emu8080
                     break;
                 case 0x05:// DCR    B                                            
                     {
-                        cpu.b = Decrement(cpu.b);
+                        cpu.b = status.Decrement(cpu.b);
                         cpu.pc += opCode.size;
                     }
                     break;
@@ -200,7 +207,7 @@ namespace Emu8080
                     break;
                 case 0x0d:// DCR    C
                     {
-                        cpu.c = Decrement(cpu.c);
+                        cpu.c = status.Decrement(cpu.c);
                         cpu.pc += opCode.size;
                     }
                     break;
@@ -322,7 +329,7 @@ namespace Emu8080
                     {
                         int offset = GetAddress(cpu.h, cpu.l);
                         byte value = memory.ReadByteFromMemoryAt(offset);
-                        memory.WriteByteInRamAt(offset, Decrement(value));
+                        memory.WriteByteInRamAt(offset, status.Decrement(value));
                         cpu.pc += opCode.size;
                     }
                     break;
@@ -348,7 +355,7 @@ namespace Emu8080
                     break;
                 case 0x3d:// DCR    a                                            
                     {
-                        cpu.a = Decrement(cpu.a);
+                        cpu.a = status.Decrement(cpu.a);
                         cpu.pc += opCode.size;
                     }
                     break;
@@ -410,6 +417,12 @@ namespace Emu8080
                         cpu.pc += opCode.size;
                     }
                     break;
+                case 0x7d:// MOV L,A
+                    {
+                        cpu.a = cpu.l;
+                        cpu.pc += opCode.size;
+                    }
+                    break;
                 case 0x7e:// MOV A,M
                     {
                         int offset = GetAddress(cpu.h, cpu.l);
@@ -431,6 +444,12 @@ namespace Emu8080
                         cpu.pc += opCode.size;
                     }
 
+                    break;
+                case 0x80:// ADD B
+                    {
+                        cpu.a =status. Add(cpu.a, cpu.b);
+                        cpu.pc += opCode.size;
+                    }
                     break;
                 case 0xc1:// POP B
                     {
@@ -653,15 +672,6 @@ namespace Emu8080
         private byte GetParam(int num)
         {
             return memory.ReadByteFromMemoryAt(cpu.pc + num);
-        }
-
-        private byte Decrement(byte value)
-        {
-            byte answer = (byte)(value - 1);
-            status.CalcFlagParity(answer);
-            status.CalcFlagZero(answer);
-            status.CalcFlagSign(answer);
-            return answer;
         }
 
     }
