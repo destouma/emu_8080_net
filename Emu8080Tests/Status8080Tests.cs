@@ -120,85 +120,163 @@ namespace Emu8080.Tests
             Assert.IsTrue(status.cy);
         }
 
-
+        // Decrement tests 0 
         [TestMethod()]
-        public void DecrementTest()
+        public void DecrementTest00()
         {
             Status8080 status = new Status8080();
             status.SetPSW(0x00);
             byte result = status.Decrement(0x01);
-
-            //Assert.IsTrue(status.z);    
-            //Assert.IsFalse(status.ac);
-            //Assert.IsFalse(status.cy);
-            //Assert.IsFalse(status.s);
             Assert.AreEqual((byte)0x00, result);
+        }
+
+        [TestMethod()]
+        public void DecrementTest01()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Decrement(0x01);
+            Assert.IsTrue(status.z);
         }
 
 
         [TestMethod()]
-        public void DecrementTest2()
+        public void DecrementTest02()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Decrement(0x01);
+            Assert.IsFalse(status.ac);
+        }
+
+        [TestMethod()]
+        public void DecrementTest03()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Decrement(0x01);
+            Assert.IsFalse(status.cy);
+        }
+
+        [TestMethod()]
+        public void DecrementTest04()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Decrement(0x01);
+            Assert.IsFalse(status.s);
+        }
+
+        // Decrement tests 1 
+        [TestMethod()]
+        public void DecrementTest10()
         {
             Status8080 status = new Status8080();
             status.SetPSW(0x00);
             byte result = status.Decrement(0xff);
-
-            //Assert.IsFalse(status.z);
-            //Assert.IsFalse(status.ac);
-            //Assert.IsFalse(status.cy);
-            //Assert.IsFalse(status.s);
             Assert.AreEqual((byte)0xfe, result);
+        }
+
+        [TestMethod()]
+        public void DecrementTest11()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Decrement(0xff);
+            Assert.IsFalse(status.z);
         }
 
 
         [TestMethod()]
-        public void DecrementTest3()
+        public void DecrementTest12()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Decrement(0xff);
+            Assert.IsFalse(status.ac);
+        }
+
+        [TestMethod()]
+        public void DecrementTest13()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Decrement(0xff);
+            Assert.IsFalse(status.cy);
+        }
+
+        [TestMethod()]
+        public void DecrementTest14()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Decrement(0xff);
+            Assert.IsTrue(status.s);
+        }
+
+        // Decrement test 2
+        [TestMethod()]
+        public void DecrementTest20()
         {
             Status8080 status = new Status8080();
             status.SetPSW(0x00);
             byte result = status.Decrement(0x00);
-            //Assert.IsTrue(status.z);
-            //Assert.IsFalse(status.ac);
-            //Assert.IsFalse(status.cy);
-            //Assert.IsFalse(status.s);
             Assert.AreEqual((byte)0xff, result);
         }
 
         [TestMethod()]
-        public void DecrementTest4()
+        public void DecrementTest21()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Decrement(0x00);
+            Assert.IsFalse(status.z);
+        }
+
+
+        [TestMethod()]
+        public void DecrementTest22()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Decrement(0x00);
+            Assert.IsFalse(status.ac);
+        }
+
+        [TestMethod()]
+        public void DecrementTest23()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Decrement(0x00);
+            Assert.IsFalse(status.cy);
+        }
+
+        [TestMethod()]
+        public void DecrementTest24()
+        {
+            Status8080 status = new Status8080();
+            status.SetPSW(0x00);
+            byte result = status.Decrement(0x00);
+            Assert.IsTrue(status.s);
+        }
+        // Decrement test 3
+        [TestMethod()]
+        public void DecrementTest30()
         {
             Status8080 status = new Status8080();
             status.SetPSW(0x00);
             byte result = status.Decrement(0x80);
-            //Assert.IsFalse(status.z);
-            //Assert.IsTrue(status.ac);
-            //Assert.IsFalse(status.cy);
-            //Assert.IsTrue(status.s);
             Assert.AreEqual((byte)0x7f, result);
         }
 
-        [TestMethod()]
-        public void DecrementTest5()
-        {
-            Status8080 status = new Status8080();
-            status.SetPSW(0x00);
-            byte result = status.Decrement(0x00);
-            //Assert.IsFalse(status.z);
-            //Assert.IsTrue(status.ac);
-            //Assert.IsFalse(status.cy);
-            //Assert.IsTrue(status.s);
-            Assert.AreEqual((byte)0xff, result);
-        }
+        //Add text
         [TestMethod()]
         public void AddTest()
         {
             Status8080 status = new Status8080();
             status.SetPSW(0x00);
             byte result = status.Add(0x01, 0x01);
-            //Assert.IsFalse(status.z);
-            //Assert.IsFalse(status.ac);
-            //Assert.IsFalse(status.cy);
-            //Assert.IsFalse(status.s);
             Assert.AreEqual((byte)0x02, result);
         }
 
@@ -207,10 +285,6 @@ namespace Emu8080.Tests
             Status8080 status = new Status8080();
             status.SetPSW(0x00);
             byte result = status.Add(0xfe, 0x01);
-            //Assert.IsFalse(status.z);
-            //Assert.IsFalse(status.ac);
-            //Assert.IsFalse(status.cy);
-            //Assert.IsFalse(status.s);
             Assert.AreEqual((byte)0xff, result);
         }
 
@@ -220,10 +294,6 @@ namespace Emu8080.Tests
             Status8080 status = new Status8080();
             status.SetPSW(0x00);
             byte result = status.Add(0xfe, 0x05);
-            //Assert.IsFalse(status.z);
-            //Assert.IsFalse(status.ac);
-            //Assert.IsFalse(status.cy);
-            //Assert.IsFalse(status.s);
             Assert.AreEqual((byte)0x03, result);
         }
 
@@ -233,10 +303,6 @@ namespace Emu8080.Tests
             Status8080 status = new Status8080();
             status.SetPSW(0x00);
             byte result = status.Add(0xff, 0x01);
-            //Assert.IsFalse(status.z);
-            //Assert.IsFalse(status.ac);
-            //Assert.IsFalse(status.cy);
-            //Assert.IsFalse(status.s);
             Assert.AreEqual((byte)0x00, result);
         }
 

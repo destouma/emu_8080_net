@@ -486,7 +486,7 @@ namespace Emu8080
                     break;
                 case 0xc6:// ADI    byte
                     {
-                        short x = (short)(cpu.a + GetParam(1));
+                        UInt16 x = (UInt16)(cpu.a + GetParam(1));
                         status.CalcFlagZero((byte)x);
                         status.CalcFlagSign((byte)x);
                         status.CalcFlagParity((byte)x);
@@ -627,10 +627,10 @@ namespace Emu8080
                     break;
                 case 0xfe:// CPI byte 
                     {
-                        short answer = (byte)(cpu.a - GetParam(1));
-                        status.CalcFlagParity((byte)answer);
-                        status.CalcFlagZero((byte)answer);
-                        status.CalcFlagSign((byte)answer);
+                        UInt16 answer = (UInt16)(cpu.a - GetParam(1));
+                        status.CalcFlagParity(answer);
+                        status.CalcFlagZero(answer);
+                        status.CalcFlagSign(answer);
                         status.CalcFlagCarry(answer);
                         cpu.pc += opCode.size;
                     }

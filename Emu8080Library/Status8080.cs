@@ -21,13 +21,13 @@ namespace Emu8080
             this.cy = false;
 		}
 
-        public void CalcFlagZero(byte value)
+        public void CalcFlagZero(UInt16 value)
         {
             //Z (zero) set to 1 when the result is equal to zero
             this.z = (value  == 0x00);
         }
 
-        public void CalcFlagSign(byte value)
+        public void CalcFlagSign(UInt16 value)
         {
             // S(sign) set to 1 when bit 7(the most significant bit or MSB) of the math instruction is set
             this.s = (value & 0x80) == 0x80;
@@ -47,26 +47,40 @@ namespace Emu8080
 
         public void CalcFlagParity(int value)
         {
-            ////P(parity) is set when the answer has even parity, clear when odd parity
-            //byte num = (byte)(value & 0xff);
-            //byte total = 0;
-            //for (total = 0; num > 0; total++)
-            //{
-            //    num &= (byte)(num - 1);
-            //}
-            //this.p = (total % 2) == 0;
+            byte num = (byte)(value & 0xff);
+            byte total = 0;
+            for (total = 0; num > 0; total++)
+            {
+                num &= (byte)(num - 1);
+            }
+            this.p = (total % 2) == 0;
         }
 
-        public void CalcFlagCarry(short value)
+        public void CalcFlagParity(UInt16 value)
+        {
+            byte num = (byte)(value & 0xff);
+            byte total = 0;
+            for (total = 0; num > 0; total++)
+            {
+                num &= (byte)(num - 1);
+            }
+            this.p = (total % 2) == 0;
+        }
+
+        public void CalcFlagCarry(UInt16 value)
         {
             //CY (carry) set to 1 when the instruction resulted in a carry out or borrow into the high order bit
             this.cy = (value > 0xff);
         }
 
-        public void CalcFlagAuxCarry(byte value)
+        public void CalcFlagAuxCarry(byte a, byte b)
         {
-            //TODO: implement auxiliary carry flag
-            this.ac =  false;
+            this.ac = (byte)((a & 0x0f) + (b & 0x0f)) > 0x0f;
+        }
+
+        public void CalcAuxCarryFlag(byte a, byte b, byte c)
+        {
+            this.ac = (byte)((a & 0x0f) + (b & 0x0f) + (c & 0x0f)) > 0x0f;
         }
 
         public void CalcLogicFlags(byte value)
@@ -118,7 +132,7 @@ namespace Emu8080
 
         public byte Add(byte a, byte b)
         {
-            short answer = (short)(a + b);
+            UInt16 answer = (UInt16)(a + b);
             CalcFlagParity((byte)answer);
             CalcFlagZero((byte)answer);
             CalcFlagSign((byte)answer);
