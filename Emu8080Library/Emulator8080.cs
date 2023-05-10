@@ -60,7 +60,7 @@ namespace Emu8080
                 nowMillisecond = now.ToUnixTimeMilliseconds();
                 lastInteeruptMillisecond = lastInterrupt.ToUnixTimeMilliseconds();
                 diff = nowMillisecond - lastInteeruptMillisecond;
-                if (diff > 16)
+                if (diff > 8)
                 {
                     if (cpu.intEnabled)
                     {
@@ -267,6 +267,15 @@ namespace Emu8080
                         cpu.pc += opCode.size;
                     }
                     break;
+                case 0x22:
+                    {
+                        int offset = GetAddress(GetParam(2),GetParam(1));
+                        memory.WriteByteInRamAt(offset, cpu.l);
+                        memory.WriteByteInRamAt(offset+1, cpu.h);
+                        cpu.pc += opCode.size;
+
+                    }
+                    break;
                 case 0x23:// INX    H
                     {
                         cpu.l++;
@@ -310,7 +319,13 @@ namespace Emu8080
                         cpu.pc += opCode.size;
                     }
                     break;
+                case 0x2e://MVI L,byte
+                    {
+                        cpu.l = GetParam(1);
+                        cpu.pc += opCode.size;
 
+                    }
+                    break;
                 case 0x31:// LXI	SP,word
                     {
                         cpu.sp = GetAddress(GetParam(2), GetParam(1));
@@ -386,6 +401,13 @@ namespace Emu8080
                         cpu.pc += opCode.size;
                     }
                     break;
+                case 0x67:
+                    {
+                        cpu.h = cpu.a;
+                        cpu.pc += opCode.size;
+
+                    }
+                    break;
                 case 0x6f:// MOV L,A
                     {
                         cpu.l = cpu.a;
@@ -447,8 +469,22 @@ namespace Emu8080
                     break;
                 case 0x80:// ADD B
                     {
-                        cpu.a =status. Add(cpu.a, cpu.b);
+                        cpu.a =status.Add(cpu.a, cpu.b);
                         cpu.pc += opCode.size;
+                    }
+                    break;
+                case 0xc0:
+                    {
+                        if (status.z)
+                        {
+                            cpu.pc = GetAddress(memory.ReadByteFromMemoryAt(cpu.sp + 1), memory.ReadByteFromMemoryAt(cpu.sp));
+                            cpu.sp += 2;
+                        }
+                        else
+                        {
+                            cpu.pc += opCode.size;
+                        }
+                        break;
                     }
                     break;
                 case 0xc1:// POP B
